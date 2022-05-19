@@ -1,0 +1,18 @@
+{
+  "name": "cli-typing-test",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "author": "Thomas Clark <thomas.clark@bigtincan.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "start:dev": "nodemon src/index.ts --watch src/** -e ts,json,tsx"
+  },
+  "dependencies": {
+    "ts-node": "^10.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "typescript": "^4.6.4"
+  }
+}
