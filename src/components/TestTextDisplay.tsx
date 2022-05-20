@@ -1,30 +1,57 @@
+import { typingTestAtom } from "$store";
+import { WordProgressStatus } from "$types";
+import { conditionalProps, isLastIndex } from "$utils";
+import { D } from "@mobily/ts-belt";
 import { Box, Text, TextProps } from "ink";
+import { selectAtom, useAtomValue } from "jotai/utils";
 import { useCallback } from "react";
-import conditionalProps from "../utils/conditionalProps";
 
 export type TestTextDisplayProps = {
 	words: string[];
 	activeIndex: number;
 };
 
-const isLastIndex = (arr: any[], index: number) => index === arr.length - 1;
+const testTextStateAtom = selectAtom(
+	typingTestAtom,
+	D.selectKeys(["words", "activeWordIndex"]),
+);
 
-const TestTextDisplay = ({ words, activeIndex }: TestTextDisplayProps) => {
+const getWordBackgroundColor = (
+	wordStatus: WordProgressStatus,
+	wordIndex: number,
+	activeWordIndex: number,
+) => {
+	if (wordIndex === activeWordIndex) return "blue";
+	switch (wordStatus) {
+		case "correct":
+			return "green";
+		case "incorrect":
+			return "red";
+		default:
+			return "";
+	}
+};
+
+const TestTextDisplay = () => {
+	const { words, activeWordIndex } = useAtomValue(testTextStateAtom);
 	return (
-		<Box>
-			{words.map((word, index) => (
-				<Text key={index}>
+		<Text>
+			{words.map(({ word, status }, index) => (
+				<Text key={`${word}${index}`}>
 					<Text
-						{...conditionalProps<TextProps>(index === activeIndex, {
-							backgroundColor: "blue",
-						})}
+						backgroundColor={getWordBackgroundColor(
+							status,
+							index,
+							activeWordIndex,
+						)}
+						bold={index === activeWordIndex}
 					>
 						{word}
 					</Text>
 					{!isLastIndex(words, index) && <Text> </Text>}
 				</Text>
 			))}
-		</Box>
+		</Text>
 	);
 };
 

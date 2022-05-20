@@ -1,3 +1,4 @@
+import { UserInput } from "$types";
 import { S } from "@mobily/ts-belt";
 import { Key, useInput } from "ink";
 import { useCallback, useState } from "react";
@@ -9,9 +10,7 @@ const removeLastCharacter = (value: string) =>
 
 const useInputState = (initialValue = "") => {
 	const [value, setValue] = useState(initialValue);
-	const [lastInput, setLastInput] = useState<
-		{ key: Key; input: string } | undefined
-	>(undefined);
+	const [lastInput, setLastInput] = useState<UserInput | undefined>(undefined);
 
 	useInput((input, key) => {
 		setLastInput({ key, input });

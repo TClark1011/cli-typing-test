@@ -1,32 +1,28 @@
-import { Box, Text } from "ink";
-import useInputState from "./hooks/useInputState";
-import randomWords from "random-words";
-import TestTextDisplay from "./components/TestTextDisplay";
-import { useEffect, useState } from "react";
-import { N } from "@mobily/ts-belt";
-
-const testTextWords = randomWords(15);
+import { Box } from "ink";
+import { TestTextDisplay, TestTimer, TypingInput } from "$components";
+import { useSetAtom } from "jotai";
+import { useMount } from "ahooks";
+import { useTestTimer } from "$logic";
+import { typingTestAtom } from "$store";
 
 const App: React.FC = () => {
-	const { value: inputValue, lastInput, clear } = useInputState();
-	const [activeIndex, setActiveIndex] = useState(0);
+	const dispatch = useSetAtom(typingTestAtom);
 
-	useEffect(() => {
-		if (lastInput?.input === " ") {
-			clear();
-			setActiveIndex(N.succ);
-		}
-	}, [lastInput]);
+	useTestTimer();
+	useMount(() => {
+		dispatch({
+			type: "generateNewWords",
+		});
+	});
+
 	return (
-		<Box flexDirection="column">
-			<TestTextDisplay words={testTextWords} activeIndex={activeIndex} />
-			<Box
-				borderColor="white"
-				borderStyle="single"
-				paddingX={2}
-				justifyContent="center"
-			>
-				<Text>{inputValue || " "}</Text>
+		<Box flexDirection="column" width={60}>
+			<TestTextDisplay />
+			<Box>
+				<Box paddingRight={1} flexGrow={1} flexShrink={1}>
+					<TypingInput />
+				</Box>
+				<TestTimer />
 			</Box>
 		</Box>
 	);
