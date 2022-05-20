@@ -1,7 +1,7 @@
 import { generateWords, updateWordStatus } from "$logic";
 import { Action, Array, TestStatus, WordProgress } from "$types";
 import { objectReducer } from "$utils";
-import { D } from "@mobily/ts-belt";
+import { D, S } from "@mobily/ts-belt";
 import { atomWithReducer } from "jotai/utils";
 
 export type TypingTestAction =
@@ -35,7 +35,8 @@ const typingTestAtom = atomWithReducer<TypingTestStateProps, TypingTestAction>(
 	objectReducer<TypingTestStateProps, TypingTestAction>({
 		gotoNextWord: (state) => {
 			const activeWord = selectActiveWord(state);
-			const newStatus = state.input === activeWord ? "correct" : "incorrect";
+			const newStatus =
+				S.trimEnd(state.input) === activeWord ? "correct" : "incorrect";
 			const updatedWords = updateWordStatus(
 				state.words,
 				state.activeWordIndex,
