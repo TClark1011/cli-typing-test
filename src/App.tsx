@@ -1,10 +1,14 @@
 import { Box } from "ink";
-import { TestTextDisplay, TestTimer, TypingInput } from "$components";
+import {
+	EndReport,
+	TestTextDisplay,
+	TestTimer,
+	TypingInput,
+} from "$components";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useMount } from "ahooks";
 import { useTestTimer } from "$logic";
 import { typingTestAtom } from "$store";
-import EndReport from "$components/EndReport";
 import { selectAtom } from "jotai/utils";
 
 const testIsCompletedAtom = selectAtom(
