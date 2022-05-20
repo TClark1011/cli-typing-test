@@ -4,4 +4,7 @@ const roundNumber = (number: number, decimalPoints: number) => {
 	return Math.round(number * factor) / factor;
 };
 
+export const _roundTo = (decimalPoints: number) => (number: number) =>
+	roundNumber(number, decimalPoints);
+
 export default roundNumber;

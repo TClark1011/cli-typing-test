@@ -1,5 +1,5 @@
 import { generateWords, updateWordStatus } from "$logic";
-import { Action, TestStatus, WordProgress } from "$types";
+import { Action, Array, TestStatus, WordProgress } from "$types";
 import { objectReducer } from "$utils";
 import { D } from "@mobily/ts-belt";
 import { atomWithReducer } from "jotai/utils";
@@ -13,7 +13,7 @@ export type TypingTestAction =
 export type TypingTestStateProps = {
 	input: string;
 	activeWordIndex: number;
-	words: readonly WordProgress[];
+	words: Array<WordProgress>;
 	timePassed: number;
 	testStatus: TestStatus;
 };

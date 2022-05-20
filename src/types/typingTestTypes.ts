@@ -1,3 +1,5 @@
+import { Key } from "ink";
+
 export type WordProgressStatus = "incorrect" | "correct" | "neutral";
 
 export type WordProgress = {
@@ -6,3 +8,8 @@ export type WordProgress = {
 };
 
 export type TestStatus = "running" | "paused" | "completed";
+
+export type UserInput = {
+	input: string;
+	key: Key;
+};
