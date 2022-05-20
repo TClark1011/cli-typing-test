@@ -10,6 +10,7 @@ import { useMount } from "ahooks";
 import { useTestTimer } from "$logic";
 import { typingTestAtom } from "$store";
 import { selectAtom } from "jotai/utils";
+import { AppOptions } from "$types";
 
 const testIsCompletedAtom = selectAtom(
 	typingTestAtom,

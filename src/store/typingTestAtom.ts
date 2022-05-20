@@ -1,4 +1,4 @@
-import { generateWords, updateWordStatus } from "$logic";
+import { flags, generateWords, updateWordStatus } from "$logic";
 import { Action, Array, TestStatus, WordProgress } from "$types";
 import { objectReducer } from "$utils";
 import { D, S } from "@mobily/ts-belt";
@@ -57,7 +57,7 @@ const typingTestAtom = atomWithReducer<TypingTestStateProps, TypingTestAction>(
 		updateInput: (state, action) => D.set(state, "input", action.payload),
 		generateNewWords: (state) => ({
 			...state,
-			words: generateWords(5),
+			words: generateWords(flags.words),
 		}),
 		updateTimePassed: (state, action) => ({
 			...state,
