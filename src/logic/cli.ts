@@ -7,6 +7,11 @@ const cli = cliHelper("Helper Message", {
 			default: 5,
 			alias: "w",
 		},
+		maxWordLength: {
+			type: "number",
+			default: 0,
+			alias: "m",
+		},
 	},
 });
 

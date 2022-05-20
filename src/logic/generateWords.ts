@@ -1,8 +1,19 @@
+import { flags } from "$logic/cli";
 import { WordProgress } from "$types";
-import { A, flow, O, pipe } from "@mobily/ts-belt";
-import randomWords from "random-words";
+import { getRandom } from "$utils";
+import { A, flow, N, pipe, S } from "@mobily/ts-belt";
+import { wordList } from "random-words";
 
-const getRandomWord = flow(() => randomWords(1), A.head, O.getExn);
+const isLongerThan = (length: number) => flow(S.length, N.gt(length));
+
+const getRandomWord = () => {
+	const maxLength =
+		flags.maxWordLength > 0 ? flags.maxWordLength : Number.MAX_VALUE;
+
+	const suitableWords = A.reject(wordList, isLongerThan(maxLength));
+
+	return getRandom(suitableWords);
+};
 
 const generateWordItem = (): WordProgress => ({
 	word: getRandomWord(),
