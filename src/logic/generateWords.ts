@@ -20,6 +20,6 @@ const generateWordItem = (): WordProgress => ({
 	status: "neutral",
 });
 
-const generateWords = A.makeWithIndex(generateWordItem);
+const generateWords = () => A.makeWithIndex(flags.words, generateWordItem);
 
 export default generateWords;
