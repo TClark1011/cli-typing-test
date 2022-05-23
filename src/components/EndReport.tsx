@@ -1,8 +1,17 @@
-import deriveWordsPerMinute from "$logic/deriveWordsPerMinute";
+import { deriveWordsPerMinute } from "$logic";
 import { typingTestAtom, TypingTestStateProps } from "$store";
 import { WordProgress } from "$types";
-import { roundNumber, _getBestItem, _roundTo } from "$utils";
-import { A, D, F, flow, pipe, S } from "@mobily/ts-belt";
+import {
+	getSeconds,
+	printPercentage,
+	roundNumber,
+	_countWith,
+	_getBestItem,
+	_percentageOfItemsWhere,
+	_roundTo,
+	_subtractFrom,
+} from "$utils";
+import { A, B, D, F, flow, N, pipe, S } from "@mobily/ts-belt";
 import { Box, Text, TextProps } from "ink";
 import { useAtomValue } from "jotai/utils";
 
@@ -11,23 +20,40 @@ type ReportMetric = {
 	getter: (p: TypingTestStateProps) => number | string;
 };
 
-const isWordMarkedAsCorrect: (p: WordProgress) => boolean = flow(
+const isWordMarkedAsIncorrect: (p: WordProgress) => boolean = flow(
 	D.getUnsafe("status"),
 	F.equals("incorrect"),
 );
 
+const isWordMarkedAsCorrect = flow(isWordMarkedAsIncorrect, B.not);
+
 const metrics: ReportMetric[] = [
 	{
 		label: "Time Elapsed",
-		getter: ({ timePassed }) => `${roundNumber(timePassed / 1000, 2)}s`,
+		getter: flow(
+			D.getUnsafe("timePassed"),
+			getSeconds,
+			_roundTo(2),
+			String,
+			S.concat("s"),
+		),
 	},
 	{
 		label: "Words Typed",
-		getter: ({ words }) => words.length,
+		getter: flow(D.getUnsafe("words"), A.length),
 	},
 	{
 		label: "Mistakes Made",
-		getter: ({ words }) => words.filter(isWordMarkedAsCorrect).length,
+		getter: flow(D.getUnsafe("words"), _countWith(isWordMarkedAsIncorrect)),
+	},
+	{
+		label: "Accuracy",
+		getter: ({ words }) =>
+			pipe(
+				words,
+				_percentageOfItemsWhere(isWordMarkedAsCorrect),
+				printPercentage,
+			),
 	},
 	{
 		label: "WPM",
@@ -40,7 +66,7 @@ const getMetricLabelLength: (p: ReportMetric) => number = flow(
 	S.length,
 );
 
-const longestMetricLabel = pipe(
+const longestMetricLabel: number = pipe(
 	metrics,
 	_getBestItem(getMetricLabelLength),
 	getMetricLabelLength,
