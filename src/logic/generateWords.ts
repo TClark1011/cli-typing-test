@@ -1,4 +1,4 @@
-import { flags } from "$logic/cli";
+import { flags } from "$cli";
 import { WordProgress } from "$types";
 import { getRandom } from "$utils";
 import { A, flow, N, pipe, S } from "@mobily/ts-belt";

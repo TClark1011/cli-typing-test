@@ -9,12 +9,14 @@ const useTestTimer = () => {
 	const { timePassed, toggle } = useTimer();
 	const { testStatus } = useAtomValue(typingTestAtom);
 	const dispatch = useSetAtom(typingTestAtom);
+
 	useUpdateEffect(() => {
 		dispatch({
 			type: "updateTimePassed",
 			payload: timePassed,
 		});
 	}, [timePassed]);
+
 	useUpdateEffect(() => {
 		if (isOneOf<TestStatus>(testStatus, ["completed", "paused"])) {
 			toggle(false);

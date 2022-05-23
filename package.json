@@ -6,20 +6,23 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.tsx",
-    "start:dev": "nodemon --exec 'yarn start' --watch 'src/**' -e ts,tsx --no-stdin"
+    "start:dev": "NODE_ENV=development nodemon --exec 'yarn start' --watch 'src/**' -e ts,tsx --no-stdin"
   },
   "dependencies": {
     "@mobily/ts-belt": "^3.11.0",
     "ahooks": "^3.3.12",
+    "dotenv-flow": "^3.2.0",
     "ink": "^3.2.0",
     "ink-text-input": "^4.0.3",
     "jotai": "^1.6.7",
     "meow": "9.0.0",
     "random-words": "^1.1.2",
     "react": "^18.1.0",
-    "ts-node": "^10.7.0"
+    "ts-node": "^10.7.0",
+    "zod": "^3.17.2"
   },
   "devDependencies": {
+    "@types/dotenv-flow": "^3.2.0",
     "@types/random-words": "^1.1.2",
     "@types/react": "^18.0.9",
     "nodemon": "^2.0.16",

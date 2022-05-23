@@ -1,10 +1,11 @@
-import cliHelper from "$lib/cliHelper";
+import { DEFAULT_NUMBER_OF_WORDS } from "$constants";
+import cliHelper from "$cli-helper";
 
 const cli = cliHelper("Helper Message", {
 	flags: {
 		words: {
 			type: "number",
-			default: 5,
+			default: DEFAULT_NUMBER_OF_WORDS,
 			alias: "w",
 		},
 		maxWordLength: {
