@@ -1,16 +1,23 @@
+import { getTimerSeconds } from "$logic";
+import deriveWordsPerMinute from "$logic/deriveWordsPerMinute";
 import { typingTestAtom } from "$store";
-import { roundNumber } from "$utils";
-import { D, N } from "@mobily/ts-belt";
+import { getSeconds, roundNumber, _roundTo } from "$utils";
+import { D, flow, N, pipe } from "@mobily/ts-belt";
 import { Box, Text } from "ink";
+import { useAtom } from "jotai";
 import { selectAtom, useAtomValue } from "jotai/utils";
 
-const timerAtom = selectAtom(typingTestAtom, D.getUnsafe("timePassed"));
+const timerAtom = selectAtom(
+	typingTestAtom,
+	flow(D.getUnsafe("timePassed"), getTimerSeconds),
+);
+
 const TestTimer: React.FC = () => {
-	const timePassed = useAtomValue(timerAtom);
+	const timer = useAtomValue(timerAtom);
 
 	return (
-		<Box paddingX={1} borderColor="white" width={10} borderStyle="single">
-			<Text>{roundNumber(timePassed / 1000, 2)}</Text>
+		<Box paddingX={1} borderColor="white" borderStyle="single" minWidth={10}>
+			<Text>{timer}</Text>
 		</Box>
 	);
 };

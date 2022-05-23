@@ -6,6 +6,7 @@ export { default as _setOrToggle } from "./setOrToggle";
 export { default as isOneOf } from "./isOneOf";
 export { default as getBestItem } from "./getBestItem";
 export { default as getRandom } from "./getRandom";
+export { default as getSeconds } from "./getSeconds";
 
 export * from "./roundNumber";
 export * from "./getBestItem";
