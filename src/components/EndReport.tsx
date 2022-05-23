@@ -1,3 +1,4 @@
+import { useExitApp } from "$hooks";
 import { deriveWordsPerMinute } from "$logic";
 import { typingTestAtom, TypingTestStateProps } from "$store";
 import { WordProgress } from "$types";
@@ -12,7 +13,8 @@ import {
 	_subtractFrom,
 } from "$utils";
 import { A, B, D, F, flow, N, pipe, S } from "@mobily/ts-belt";
-import { Box, Text, TextProps } from "ink";
+import { Box, BoxProps, Text, TextProps, useInput } from "ink";
+import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 
 type ReportMetric = {
@@ -72,23 +74,63 @@ const longestMetricLabel: number = pipe(
 	getMetricLabelLength,
 );
 
+type PostTestActionProps = {
+	letter: string;
+	description: string;
+};
+
+const PostTestAction: React.FC<PostTestActionProps> = ({
+	letter,
+	description,
+}) => (
+	<Box borderColor="white" borderStyle="single" paddingX={1}>
+		<Text>
+			{letter} - {description}
+		</Text>
+	</Box>
+);
+
 const EndReport: React.FC = () => {
-	const state = useAtomValue(typingTestAtom);
+	const exitApp = useExitApp();
+	const [state, dispatch] = useAtom(typingTestAtom);
+
+	useInput((input) => {
+		switch (input) {
+			case "r":
+				return dispatch({ type: "reset" });
+			case "q":
+				return exitApp();
+		}
+	});
 
 	return (
-		<Box borderStyle="double" borderColor="blue" justifyContent="center">
-			<Box flexDirection="column">
-				<Box justifyContent="center">
-					<Text>You completed the test!</Text>
-				</Box>
-				{metrics.map(({ label, getter }) => (
-					<Box key={label}>
-						<Box width={longestMetricLabel + 6}>
-							<Text> - {label}:</Text>
-						</Box>
-						<Text bold>{getter(state)}</Text>
+		<Box flexDirection="column">
+			<Box
+				borderStyle="double"
+				borderColor="blue"
+				justifyContent="center"
+				flexDirection="column"
+				alignItems="center"
+			>
+				<Box flexDirection="column">
+					<Box justifyContent="center">
+						<Text>You completed the test!</Text>
 					</Box>
-				))}
+					{metrics.map(({ label, getter }) => (
+						<Box key={label}>
+							<Box width={longestMetricLabel + 6}>
+								<Text> - {label}:</Text>
+							</Box>
+							<Text bold>{getter(state)}</Text>
+						</Box>
+					))}
+				</Box>
+				<Box width="100%" justifyContent="center">
+					<Box paddingRight={2}>
+						<PostTestAction letter="q" description="quit" />
+					</Box>
+					<PostTestAction letter="r" description="restart" />
+				</Box>
 			</Box>
 		</Box>
 	);

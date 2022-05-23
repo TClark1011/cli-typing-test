@@ -7,7 +7,7 @@ import { atomWithReducer } from "jotai/utils";
 export type TypingTestAction =
 	| Action<"gotoNextWord">
 	| Action<"updateInput", string>
-	| Action<"generateNewWords">
+	| Action<"reset">
 	| Action<"updateTimePassed", number>;
 
 export type TypingTestStateProps = {
@@ -28,7 +28,7 @@ const typingTestAtom = atomWithReducer<TypingTestStateProps, TypingTestAction>(
 	{
 		input: "",
 		activeWordIndex: 0,
-		words: [],
+		words: generateWords(),
 		timePassed: 0,
 		testStatus: "running",
 	},
@@ -55,9 +55,13 @@ const typingTestAtom = atomWithReducer<TypingTestStateProps, TypingTestAction>(
 			};
 		},
 		updateInput: (state, action) => D.set(state, "input", action.payload),
-		generateNewWords: (state) => ({
+		reset: (state) => ({
 			...state,
 			words: generateWords(),
+			activeWordIndex: 0,
+			input: "",
+			timePassed: 0,
+			testStatus: "running",
 		}),
 		updateTimePassed: (state, action) => ({
 			...state,

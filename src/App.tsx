@@ -5,12 +5,10 @@ import {
 	TestTimer,
 	TypingInput,
 } from "$components";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useMount } from "ahooks";
+import { useAtomValue } from "jotai";
 import { useTestTimer } from "$logic";
 import { typingTestAtom } from "$store";
 import { selectAtom } from "jotai/utils";
-import { AppOptions } from "$types";
 
 const testIsCompletedAtom = selectAtom(
 	typingTestAtom,
@@ -18,15 +16,9 @@ const testIsCompletedAtom = selectAtom(
 );
 
 const App: React.FC = () => {
-	const dispatch = useSetAtom(typingTestAtom);
 	const testIsCompleted = useAtomValue(testIsCompletedAtom);
 
 	useTestTimer();
-	useMount(() => {
-		dispatch({
-			type: "generateNewWords",
-		});
-	});
 
 	return (
 		<Box flexDirection="column" width={60}>
