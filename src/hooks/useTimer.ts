@@ -1,7 +1,6 @@
 import { _setOrToggle } from "$utils";
-import { B, flow, N } from "@mobily/ts-belt";
-import { update } from "@mobily/ts-belt/dist/types/Dict";
-import { useInterval, useUpdateEffect } from "ahooks";
+import { flow } from "@mobily/ts-belt";
+import { useInterval } from "ahooks";
 import { useEffect, useRef, useState } from "react";
 
 const invertIfDefined = (val?: boolean) => (val === undefined ? val : !val);
@@ -25,24 +24,18 @@ const useTimer = (startEnabled = true, updateInterval = 100) => {
 	useInterval(() => {
 		if (!isPaused) {
 			setTimePassed(
-				(current) =>
-					// current - (startedAtRef.current + timeSpentPausedRef.current),
-					Date.now() - (startedAtRef.current + timeSpentPausedRef.current),
+				Date.now() - (startedAtRef.current + timeSpentPausedRef.current),
 			);
 		}
 	}, updateInterval);
 
-	useUpdateEffect(() => {
-		if (timePassed === 0) {
-			// Whenever the timer gets reset, reset additional state
-			startedAtRef.current = Date.now();
-			timeSpentPausedRef.current = 0;
-		}
-	}, [timePassed]);
-
 	return {
 		timePassed,
-		reset: () => setTimePassed(0),
+		reset: () => {
+			setTimePassed(0);
+			startedAtRef.current = Date.now();
+			timeSpentPausedRef.current = 0;
+		},
 		toggle: flow(invertIfDefined, _setOrToggle, setIsPaused) as (
 			p?: boolean,
 		) => any,
