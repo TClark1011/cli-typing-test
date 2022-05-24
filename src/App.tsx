@@ -6,7 +6,6 @@ import {
 	TypingInput,
 } from "$components";
 import { useAtomValue } from "jotai";
-import { useTestTimer } from "$logic";
 import { typingTestAtom } from "$store";
 import { selectAtom } from "jotai/utils";
 
@@ -17,8 +16,6 @@ const testIsCompletedAtom = selectAtom(
 
 const App: React.FC = () => {
 	const testIsCompleted = useAtomValue(testIsCompletedAtom);
-
-	useTestTimer();
 
 	return (
 		<Box flexDirection="column" width={60}>

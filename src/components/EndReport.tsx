@@ -1,7 +1,7 @@
 import { useExitApp } from "$hooks";
 import { deriveWordsPerMinute } from "$logic";
-import { typingTestAtom, TypingTestStateProps } from "$store";
-import { WordProgress } from "$types";
+import { selectTimerValue, typingTestAtom, TypingTestStateProps } from "$store";
+import { deriveTimerValue, WordProgress } from "$types";
 import {
 	getSeconds,
 	printPercentage,
@@ -33,7 +33,7 @@ const metrics: ReportMetric[] = [
 	{
 		label: "Time Elapsed",
 		getter: flow(
-			D.getUnsafe("timePassed"),
+			selectTimerValue,
 			getSeconds,
 			_roundTo(2),
 			String,
@@ -59,7 +59,8 @@ const metrics: ReportMetric[] = [
 	},
 	{
 		label: "WPM",
-		getter: ({ words, timePassed }) => deriveWordsPerMinute(words, timePassed),
+		getter: ({ words, timer }) =>
+			deriveWordsPerMinute(words, deriveTimerValue(timer)),
 	},
 ];
 

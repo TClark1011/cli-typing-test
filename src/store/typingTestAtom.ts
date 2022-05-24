@@ -1,5 +1,13 @@
 import { generateWords, updateWordStatus } from "$logic";
-import { Action, Array, TestStatus, WordProgress } from "$types";
+import {
+	Action,
+	Array,
+	deriveTimerValue,
+	generateTimer,
+	TestStatus,
+	Timer,
+	WordProgress,
+} from "$types";
 import { objectReducer } from "$utils";
 import { D, S } from "@mobily/ts-belt";
 import { atomWithReducer } from "jotai/utils";
@@ -7,31 +15,40 @@ import { atomWithReducer } from "jotai/utils";
 export type TypingTestAction =
 	| Action<"gotoNextWord">
 	| Action<"updateInput", string>
-	| Action<"reset">
-	| Action<"updateTimePassed", number>;
+	| Action<"reset">;
 
 export type TypingTestStateProps = {
 	input: string;
 	activeWordIndex: number;
 	words: Array<WordProgress>;
-	timePassed: number;
 	testStatus: TestStatus;
+	timer: Timer;
 };
 
+const getInitialValue = (): TypingTestStateProps => ({
+	input: "",
+	activeWordIndex: 0,
+	words: generateWords(),
+	testStatus: "running",
+	timer: generateTimer(),
+});
+
+const mergeTypingTest = D.merge<TypingTestStateProps, Partial<TypingTestStateProps>>;
+
 /* ------------ Selectors ----------- */
-export const selectActiveWord = (state: TypingTestStateProps): string =>
+type TypingTestSelector<Returns> = (p:TypingTestStateProps) => Returns;
+
+export const selectActiveWord:TypingTestSelector<string> = (state) =>
 	state.words[state.activeWordIndex].word ?? new Error("Active word not found");
+
+export const selectTimerValue: TypingTestSelector<number> = ({ timer }) =>
+	deriveTimerValue(timer);
+
 
 /* ------------- Atom ------------ */
 
 const typingTestAtom = atomWithReducer<TypingTestStateProps, TypingTestAction>(
-	{
-		input: "",
-		activeWordIndex: 0,
-		words: generateWords(),
-		timePassed: 0,
-		testStatus: "running",
-	},
+	getInitialValue(),
 	objectReducer<TypingTestStateProps, TypingTestAction>({
 		gotoNextWord: (state) => {
 			const activeWord = selectActiveWord(state);
@@ -46,27 +63,15 @@ const typingTestAtom = atomWithReducer<TypingTestStateProps, TypingTestAction>(
 				({ status }) => status !== "neutral",
 			);
 
-			return {
-				...state,
+			return mergeTypingTest(state, {
 				activeWordIndex: state.activeWordIndex + 1,
 				input: "",
 				words: updateWordStatus(state.words, state.activeWordIndex, newStatus),
 				testStatus: allWordsAreCompleted ? "completed" : "running",
-			};
+			});
 		},
 		updateInput: (state, action) => D.set(state, "input", action.payload),
-		reset: (state) => ({
-			...state,
-			words: generateWords(),
-			activeWordIndex: 0,
-			input: "",
-			timePassed: 0,
-			testStatus: "running",
-		}),
-		updateTimePassed: (state, action) => ({
-			...state,
-			timePassed: action.payload,
-		}),
+		reset: getInitialValue,
 	}),
 );
 

@@ -11,7 +11,9 @@ export { default as countWith } from "./countWith";
 export { default as subtractFrom } from "./subtractFrom";
 export { default as percentageOfItemsWhere } from "./percentageOfItemsWhere";
 export { default as printPercentage } from "./printPercentage";
+export { default as composeFormattedNumber } from "./composeFormattedNumber";
 
+export * from "./composeFormattedNumber";
 export * from "./percentageOfItemsWhere";
 export * from "./subtractFrom";
 export * from "./countWith";
