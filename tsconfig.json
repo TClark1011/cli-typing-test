@@ -12,7 +12,7 @@
 			"$*": ["./*", "./lib/*"]
 		},
 		"outDir": "./build",
-		"moduleResolution": "Node"
+		"resolveJsonModule": true
 	},
 	"include": ["./src"],
 	"ts-node": {
