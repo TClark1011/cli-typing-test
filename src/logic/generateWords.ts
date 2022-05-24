@@ -7,8 +7,7 @@ import { wordList } from "random-words";
 const isLongerThan = (length: number) => flow(S.length, N.gt(length));
 
 const getRandomWord = () => {
-	const maxLength =
-		flags.maxWordLength > 0 ? flags.maxWordLength : Number.MAX_VALUE;
+	const maxLength = flags.maxLength > 0 ? flags.maxLength : Number.MAX_VALUE;
 
 	const suitableWords = A.reject(wordList, isLongerThan(maxLength));
 
