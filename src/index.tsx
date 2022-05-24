@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import "./config";
 import { render } from "ink";
 import { StrictMode } from "react";

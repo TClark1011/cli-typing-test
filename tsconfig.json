@@ -7,10 +7,12 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"jsx": "react-jsx",
-		"baseUrl": ".",
+		"baseUrl": "./src",
 		"paths": {
-			"$*": ["./src/*", "./src/lib/*"]
-		}
+			"$*": ["./*", "./lib/*"]
+		},
+		"outDir": "./build",
+		"moduleResolution": "Node"
 	},
 	"include": ["./src"],
 	"ts-node": {

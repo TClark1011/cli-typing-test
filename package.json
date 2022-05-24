@@ -1,13 +1,17 @@
 {
-  "name": "cli-typing-test",
+  "name": "terminal-typist",
   "description": "Test your typing speed right from your terminal",
   "version": "0.0.1",
   "main": "src/index.ts",
   "author": "Thomas Clark <thomas.clark@bigtincan.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.tsx",
-    "start:dev": "NODE_ENV=development nodemon --watch 'src/**' -e ts,tsx --no-stdin --exec yarn start -- "
+    "start": "node -r ./ts-config-paths-bootstrap.js build/index.js",
+    "start:dev": "NODE_ENV=development nodemon --watch 'src/**' -e ts,tsx --no-stdin --exec yarn start -- ",
+    "build":"tsc --project ./tsconfig.json && chmod +x scripts/start.js"
+  },
+  "bin": {
+    "tertyp": "scripts/start.js"
   },
   "dependencies": {
     "@mobily/ts-belt": "^3.11.0",
@@ -18,9 +22,10 @@
     "ink-text-input": "^4.0.3",
     "jotai": "^1.6.7",
     "meow": "9.0.0",
+    "node": "^17.7.2",
     "random-words": "^1.1.2",
     "react": "^18.1.0",
-    "ts-node": "^10.7.0",
+    "ts-node": "^10.8.0",
     "zod": "^3.17.2"
   },
   "devDependencies": {
