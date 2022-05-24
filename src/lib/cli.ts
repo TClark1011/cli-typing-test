@@ -32,7 +32,7 @@ ${paramText("-w --words")}      number of words in the test ${defaultValue(
 	)}
 ${paramText(
 	"-m --maxLength",
-)}  maximum length of a word, use 0 for no limit ${defaultValue("default: 0")}
+)}  maximum length of a word, use 0 for no limit ${defaultValue("(default: 0)")}
 `,
 	{
 		flags: {
