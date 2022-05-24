@@ -2,6 +2,10 @@
 
 Test your typing speed right from your terminal
 
+![typing test](https://i.imgur.com/X9vyEri.png)
+
+![test report](https://i.imgur.com/Ttulgj2.png)
+
 ## Usage
 
 ### Run Without Installing
