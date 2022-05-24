@@ -2,7 +2,7 @@
   "name": "terminal-typist",
   "description": "Test your typing speed right from your terminal",
   "version": "0.0.1",
-  "main": "src/index.ts",
+  "main": "scripts/index.js",
   "author": "Thomas Clark <thomas.clark@bigtincan.com>",
   "license": "MIT",
   "scripts": {
