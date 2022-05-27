@@ -26,10 +26,10 @@ or
 npm install -g terminal-typist
 ```
 
-Then run it with the command `tertype`
+Then run it with the command `tertyp`
 
 ```zsh
-tertype
+tertyp
 ```
 
 ## Parameters
