@@ -2,9 +2,9 @@
 
 Test your typing speed right from your terminal
 
-![typing test](https://i.imgur.com/X9vyEri.png)
+![typing test](media/screenshot-test.png)
 
-![test report](https://i.imgur.com/Ttulgj2.png)
+![test report](media/screenshot-report-trans.png)
 
 ## Usage
 
