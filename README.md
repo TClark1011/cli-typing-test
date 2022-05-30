@@ -4,7 +4,7 @@ Test your typing speed right from your terminal
 
 ![typing test](media/screenshot-test.png)
 
-![test report](media/screenshot-report-trans.png)
+![test report](media/screenshot-report.png)
 
 ## Usage
 
