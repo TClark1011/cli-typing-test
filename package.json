@@ -11,7 +11,8 @@
     "build": "tsc --project tsconfig.json && tsconfig-replace-paths --project tsconfig.json && chmod +x build/src/index.js"
   },
   "bin": {
-    "tertyp": "build/src/index.js"
+    "tertyp": "build/src/index.js",
+    "terminal-typist": "build/src/index.js"
   },
   "dependencies": {
     "@mobily/ts-belt": "^3.11.0",
